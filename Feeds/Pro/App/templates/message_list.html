@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feeds</title>
+</head>
+<body>
+    <h1>Feeds</h1>
+
+    {% for message in messages %}
+        <div>
+            <p>{{ message.content }}</p>
+            <p>Posted by: {{ message.user.username }}</p>
+
+            <!-- Like button -->
+            <form method="post" action="{% url 'like_message' message.id %}">
+                {% csrf_token %}
+                <button type="submit">Like</button>
+            </form>
+
+            <!-- Delete button (only shown to the message owner) -->
+            {% if message.user == request.user %}
+                <form method="post" action="{% url 'delete_message' message.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            {% endif %}
+
+            <!-- Comments -->
+            <ul>
+                {% for comment in message.comments.all %}
+                    <li>
+                        <p>{{ comment.content }}</p>
+                        <p>Posted by: {{ comment.user.username }}</p>
+
+                        <!-- Like button for comments -->
+                        <form method="post" action="{% url 'like_comment' comment.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Like</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <!-- Comment form -->
+            <form method="post" action="{% url 'post_comment' message.id %}">
+                {% csrf_token %}
+                <label for="comment_content">Post a comment:</label>
+                <textarea name="comment_content" required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    {% endfor %}
+</body>
+</html>

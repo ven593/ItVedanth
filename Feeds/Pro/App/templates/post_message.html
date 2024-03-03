@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Message</title>
+</head>
+<body>
+    <h1>Post a Message</h1>
+
+    <form method="post" action="{% url 'post_message' %}">
+        {% csrf_token %}
+        <label for="message_content">Your Message:</label>
+        <textarea name="message_content" required></textarea>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

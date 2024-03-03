@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Feed</h2>
+  <ul>
+    {% for message in messages %}
+      <li>{{ message.user.username }} - {{ message.content }} - {{ message.created_at }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
